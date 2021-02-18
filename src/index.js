@@ -6,4 +6,11 @@ const app = express();
 app.use(express.json());
 app.use(routes);
 
-app.listen(3333);
+const port = process.env.PORT || 3333;
+
+app.listen(port, () => {
+  console.log(`Server up and running on PORT ${port}`);
+});
+
+// DotEnv é para variaveis de ambiente
+// colocando no nodemon.json o dotenv ele importa em todos os arquivos
