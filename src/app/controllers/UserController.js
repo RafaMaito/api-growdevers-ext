@@ -1,6 +1,24 @@
 import apiGrowdevers from '../services/apiGrowdevers';
 
 class UserController {
+  async store(request, response) {
+    try {
+      const { name, password, type, username } = request.body;
+
+      const { data } = await apiGrowdevers.post('/users', {
+        name,
+        password,
+        type,
+        username,
+      });
+      return response.json(data);
+    } catch (error) {
+      return response
+        .status(error.response.status || 400)
+        .json({ Error: error.response.data.message });
+    }
+  }
+
   async index(request, response) {
     try {
       const authHeader = request.headers.authorization;
@@ -16,24 +34,6 @@ class UserController {
         },
       });
 
-      return response.json(data);
-    } catch (error) {
-      return response
-        .status(error.response.status || 400)
-        .json({ Error: error.response.data.message });
-    }
-  }
-
-  async store(request, response) {
-    try {
-      const { name, password, type, username } = request.body;
-
-      const { data } = await apiGrowdevers.post('/users', {
-        name,
-        password,
-        type,
-        username,
-      });
       return response.json(data);
     } catch (error) {
       return response
