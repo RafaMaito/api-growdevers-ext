@@ -17,6 +17,8 @@ routes.post('/users', UserController.store);
 
 routes.put('/users/:uid', UserController.update);
 
+routes.delete('/users/:uid', UserController.delete);
+
 // Login
 routes.post('/login', SessionController.store);
 

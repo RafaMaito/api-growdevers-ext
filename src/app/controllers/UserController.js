@@ -18,7 +18,9 @@ class UserController {
 
       return response.json(data);
     } catch (error) {
-      return response.status(error.status || 400).json(error);
+      return response
+        .status(error.response.status || 400)
+        .json({ Error: error.response.data.message });
     }
   }
 
@@ -51,7 +53,9 @@ class UserController {
       });
       return response.json(data);
     } catch (error) {
-      return response.status(error.status || 400).json(error);
+      return response
+        .status(error.response.status || 400)
+        .json({ Error: error.response.data.message });
     }
   }
 
@@ -73,6 +77,24 @@ class UserController {
         },
       });
       return response.json(data.name);
+    } catch (error) {
+      return response
+        .status(error.response.status || 400)
+        .json({ Error: error.response.data.message });
+    }
+  }
+
+  // For delete a user, just work with a admin's token
+  async delete(request, response) {
+    try {
+      const authHeader = request.headers.authorization;
+      const { uid } = request.params;
+      const { data } = await apiGrowdevers.delete(`/users/${uid}`, {
+        headers: {
+          Authorization: authHeader,
+        },
+      });
+      return response.json(data);
     } catch (error) {
       return response
         .status(error.response.status || 400)
